@@ -1,248 +1,138 @@
 import React, { useState } from 'react';
-import { Calendar, Droplet, Timer, TrendingUp, Check, Plus, ChevronLeft, ChevronRight, LineChart, Award, Bell } from 'lucide-react';
+import { Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+const PipelineDashboard = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
-const DailyTrackPage = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [waterIntake, setWaterIntake] = useState(0);
-  
-  const weeklyData = [
-    { day: 'Mon', water: 2.1, goal: 2.5 },
-    { day: 'Tue', water: 2.3, goal: 2.5 },
-    { day: 'Wed', water: 1.9, goal: 2.5 },
-    { day: 'Thu', water: 2.4, goal: 2.5 },
-    { day: 'Fri', water: 2.2, goal: 2.5 },
-    { day: 'Sat', water: 2.5, goal: 2.5 },
-    { day: 'Sun', water: 2.0, goal: 2.5 },
+  const pipelines = [
+    {
+      id: 1,
+      name: 'Pipeline 1',
+      location: 'North Processing Facility',
+      description: 'Main extraction pipeline for raw materials processing'
+    },
+    {
+      id: 2,
+      name: 'Pipeline 2',
+      location: 'East Wing Storage',
+      description: 'Secondary distribution network for finished products'
+    },
+    {
+      id: 3,
+      name: 'Pipeline 3',
+      location: 'South Terminal',
+      description: 'Export pipeline connecting to shipping terminal'
+    },
+    {
+      id: 4,
+      name: 'Pipeline 4',
+      location: 'West Production Unit',
+      description: 'Primary production line for chemical processing'
+    },
+    {
+      id: 5,
+      name: 'Pipeline 5',
+      location: 'Central Storage',
+      description: 'Main storage and distribution pipeline'
+    },
+    {
+      id: 6,
+      name: 'Pipeline 6',
+      location: 'Northwest Facility',
+      description: 'Raw material intake and preliminary processing'
+    },
+    {
+      id: 7,
+      name: 'Pipeline 7',
+      location: 'Southeast Complex',
+      description: 'Finished product distribution network'
+    },
+    {
+      id: 8,
+      name: 'Pipeline 8',
+      location: 'Northeast Wing',
+      description: 'Quality control and testing pipeline'
+    },
+    {
+      id: 9,
+      name: 'Pipeline 9',
+      location: 'Southwest Terminal',
+      description: 'Export and shipping preparation line'
+    },
+    {
+      id: 10,
+      name: 'Pipeline 10',
+      location: 'Central Processing',
+      description: 'Main processing and refinement pipeline'
+    },
+    {
+      id: 11,
+      name: 'Pipeline 11',
+      location: 'Eastern Terminal',
+      description: 'Secondary export and distribution line'
+    },
+    {
+      id: 12,
+      name: 'Pipeline 12',
+      location: 'Western Complex',
+      description: 'Auxiliary processing and storage pipeline'
+    }
   ];
-  const [dailyTasks, setDailyTasks] = useState([
-    { id: 1, title: 'Morning Water (500ml)', completed: false, time: '08:00' },
-    { id: 2, title: 'Mid-morning Water (500ml)', completed: false, time: '10:30' },
-    { id: 3, title: 'Lunch Water (500ml)', completed: false, time: '13:00' },
-    { id: 4, title: 'Afternoon Water (500ml)', completed: false, time: '15:30' },
-    { id: 5, title: 'Evening Water (500ml)', completed: false, time: '18:00' },
-  ]);
 
-  const toggleTask = (taskId) => {
-    setDailyTasks(tasks =>
-      tasks.map(task =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
+  const filteredPipelines = pipelines.filter(pipeline =>
+    pipeline.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    pipeline.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  const addWater = () => {
-    setWaterIntake(prev => Math.min(prev + 0.25, 3));
-  };
-
-  const calculateProgress = () => {
-    return (waterIntake / 2.5) * 100;
+  const handlePipelineClick = (id) => {
+    navigate(`/pipeline/${id}`);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Main Grid */}
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-8 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <span>Today's Progress</span>
-                  <div className="flex space-x-4">
-                    <button className="p-2 hover:bg-sky-100 rounded-lg">
-                      <ChevronLeft className="h-5 w-5 text-sky-600" />
-                    </button>
-                    <span className="font-medium">{selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</span>
-                    <button className="p-2 hover:bg-sky-100 rounded-lg">
-                      <ChevronRight className="h-5 w-5 text-sky-600" />
-                    </button>
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-sky-50 p-4 rounded-xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <Droplet className="h-5 w-5 text-sky-600" />
-                      <span className="text-sm text-sky-600">Water Intake</span>
-                    </div>
-                    <div className="text-2xl font-bold">{waterIntake}L / 2.5L</div>
-                    <div className="w-full bg-sky-200 rounded-full h-2 mt-2">
-                      <div 
-                        className="bg-sky-600 rounded-full h-2 transition-all duration-300"
-                        style={{ width: `${calculateProgress()}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="bg-sky-50 p-4 rounded-xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <Timer className="h-5 w-5 text-sky-600" />
-                      <span className="text-sm text-sky-600">Time Active</span>
-                    </div>
-                    <div className="text-2xl font-bold">5h 23m</div>
-                    <div className="text-sm text-gray-600 mt-2">Goal: 8h</div>
-                  </div>
-                  <div className="bg-sky-50 p-4 rounded-xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <Award className="h-5 w-5 text-sky-600" />
-                      <span className="text-sm text-sky-600">Streak</span>
-                    </div>
-                    <div className="text-2xl font-bold">7 days</div>
-                    <div className="text-sm text-gray-600 mt-2">Best: 14 days</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4 mb-6">
-                  <button
-                    onClick={addWater}
-                    className="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors flex items-center space-x-2"
-                  >
-                    <Plus className="h-5 w-5" />
-                    <span>Add Water (250ml)</span>
-                  </button>
-                </div>
-                <div className="space-y-3">
-                  {dailyTasks.map(task => (
-                    <div
-                      key={task.id}
-                      className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 hover:border-sky-200 transition-colors"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <button
-                          onClick={() => toggleTask(task.id)}
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                            task.completed
-                              ? 'bg-sky-500 border-sky-500'
-                              : 'border-gray-300'
-                          }`}
-                        >
-                          {task.completed && <Check className="h-4 w-4 text-white" />}
-                        </button>
-                        <span className={task.completed ? 'line-through text-gray-500' : ''}>
-                          {task.title}
-                        </span>
-                      </div>
-                      <span className="text-gray-500 text-sm">{task.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Weekly Progress</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsLineChart data={weeklyData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="day" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line 
-                        type="monotone" 
-                        dataKey="water" 
-                        stroke="#0284c7" 
-                        strokeWidth={2}
-                        dot={{ fill: '#0284c7' }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="goal" 
-                        stroke="#94a3b8" 
-                        strokeDasharray="5 5"
-                      />
-                    </RechartsLineChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="col-span-4 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5 text-sky-600" />
-                  <span>Calendar</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-7 gap-1 text-center">
-                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
-                    <div key={day} className="text-gray-500 text-sm font-medium">
-                      {day}
-                    </div>
-                  ))}
-                  {Array.from({ length: 31 }, (_, i) => (
-                    <button
-                      key={i}
-                      className={`aspect-square rounded-full text-sm
-                        ${i + 1 === selectedDate.getDate()
-                          ? 'bg-sky-500 text-white'
-                          : 'hover:bg-sky-100'
-                        }`}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Award className="h-5 w-5 text-sky-600" />
-                  <span>Achievements</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="bg-sky-50 p-4 rounded-xl">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">7-Day Streak</span>
-                      <Award className="h-5 w-5 text-sky-600" />
-                    </div>
-                    <div className="text-sm text-gray-600 mt-1">
-                      Keep up the good work!
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-xl opacity-60">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">30-Day Milestone</span>
-                      <Award className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <div className="text-sm text-gray-600 mt-1">
-                      23 days remaining
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Daily Tip</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-sky-50 p-4 rounded-xl">
-                  <p className="text-gray-700">
-                    Try to drink a glass of water before each meal. This helps with both hydration and portion control!
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Pipeline Management</h1>
+        <div className="relative w-72">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search pipelines..."
+            className="w-full pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredPipelines.map((pipeline) => (
+          <div 
+            key={pipeline.id}
+            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4"
+            onClick={() => handlePipelineClick(pipeline.id)}
+          >
+            <div className="mb-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-blue-500">
+                  {pipeline.name}
+                </h2>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm text-gray-600">
+                <span className="font-medium">Location:</span> {pipeline.location}
+              </div>
+              <p className="text-sm text-gray-500">
+                {pipeline.description}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default DailyTrackPage;
+export default PipelineDashboard;
