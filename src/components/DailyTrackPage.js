@@ -7,78 +7,18 @@ const PipelineDashboard = () => {
   const navigate = useNavigate();
 
   const pipelines = [
-    {
-      id: 1,
-      name: 'Pipeline 1',
-      location: 'North Processing Facility',
-      description: 'Main extraction pipeline for raw materials processing'
-    },
-    {
-      id: 2,
-      name: 'Pipeline 2',
-      location: 'East Wing Storage',
-      description: 'Secondary distribution network for finished products'
-    },
-    {
-      id: 3,
-      name: 'Pipeline 3',
-      location: 'South Terminal',
-      description: 'Export pipeline connecting to shipping terminal'
-    },
-    {
-      id: 4,
-      name: 'Pipeline 4',
-      location: 'West Production Unit',
-      description: 'Primary production line for chemical processing'
-    },
-    {
-      id: 5,
-      name: 'Pipeline 5',
-      location: 'Central Storage',
-      description: 'Main storage and distribution pipeline'
-    },
-    {
-      id: 6,
-      name: 'Pipeline 6',
-      location: 'Northwest Facility',
-      description: 'Raw material intake and preliminary processing'
-    },
-    {
-      id: 7,
-      name: 'Pipeline 7',
-      location: 'Southeast Complex',
-      description: 'Finished product distribution network'
-    },
-    {
-      id: 8,
-      name: 'Pipeline 8',
-      location: 'Northeast Wing',
-      description: 'Quality control and testing pipeline'
-    },
-    {
-      id: 9,
-      name: 'Pipeline 9',
-      location: 'Southwest Terminal',
-      description: 'Export and shipping preparation line'
-    },
-    {
-      id: 10,
-      name: 'Pipeline 10',
-      location: 'Central Processing',
-      description: 'Main processing and refinement pipeline'
-    },
-    {
-      id: 11,
-      name: 'Pipeline 11',
-      location: 'Eastern Terminal',
-      description: 'Secondary export and distribution line'
-    },
-    {
-      id: 12,
-      name: 'Pipeline 12',
-      location: 'Western Complex',
-      description: 'Auxiliary processing and storage pipeline'
-    }
+    { id: 1, name: 'Pipeline 1', location: 'North Processing Facility', description: 'Main extraction pipeline for raw materials processing' },
+    { id: 2, name: 'Pipeline 2', location: 'East Wing Storage', description: 'Secondary distribution network for finished products' },
+    { id: 3, name: 'Pipeline 3', location: 'South Terminal', description: 'Export pipeline connecting to shipping terminal' },
+    { id: 4, name: 'Pipeline 4', location: 'West Production Unit', description: 'Primary production line for chemical processing' },
+    { id: 5, name: 'Pipeline 5', location: 'Central Storage', description: 'Main storage and distribution pipeline' },
+    { id: 6, name: 'Pipeline 6', location: 'Northwest Facility', description: 'Raw material intake and preliminary processing' },
+    { id: 7, name: 'Pipeline 7', location: 'Southeast Complex', description: 'Finished product distribution network' },
+    { id: 8, name: 'Pipeline 8', location: 'Northeast Wing', description: 'Quality control and testing pipeline' },
+    { id: 9, name: 'Pipeline 9', location: 'Southwest Terminal', description: 'Export and shipping preparation line' },
+    { id: 10, name: 'Pipeline 10', location: 'Central Processing', description: 'Main processing and refinement pipeline' },
+    { id: 11, name: 'Pipeline 11', location: 'Eastern Terminal', description: 'Secondary export and distribution line' },
+    { id: 12, name: 'Pipeline 12', location: 'Western Complex', description: 'Auxiliary processing and storage pipeline' }
   ];
 
   const filteredPipelines = pipelines.filter(pipeline =>
@@ -86,8 +26,20 @@ const PipelineDashboard = () => {
     pipeline.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handlePipelineClick = (id) => {
+  const handlePipelineClick = async (id) => {
     navigate(`/pipeline/${id}`);
+    try {
+      const response = await fetch(`http://localhost:5000/start-model/${id}`, {
+        method: 'POST',
+      });
+      if (response.ok) {
+        console.log("Model started successfully");
+      } else {
+        console.error("Failed to start model");
+      }
+    } catch (error) {
+      console.error("Error starting model:", error);
+    }
   };
 
   return (
