@@ -3,8 +3,6 @@
 # Raunak Jalan
 # Sri Vatsa
 
-### **Updated Problem Statement for BluePulse**  
-
 #### **Problem Statement 2: Water Conservation and Management**  
 #### **Overview:**  
 Water scarcity is a growing concern worldwide. Efficient water management systems can significantly reduce water wastage and ensure sustainable usage. The objective is to create a **smart IoT-based system** for monitoring and controlling water usage in buildings using **real-time data, predictive analytics, and automation**.  
@@ -29,5 +27,3 @@ Develop a **smart water management system** that includes:
 - **Database Management:** MySQL for structured data storage.  
 - **Frontend Development:** React.js for the user dashboard.  
 - **Cloud Storage & Processing:** AWS/GCP/Azure for handling real-time data.  
-
-Let me know if you need any further refinements! 🚀
