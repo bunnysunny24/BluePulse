@@ -7,6 +7,7 @@ import SolutionPage from "./components/SolutionPage";
 import DailyTrackPage from "./components/DailyTrackPage";
 import SupportPage from "./components/SupportPage";
 import Pipeline from "./components/pipelines/pipeline-1"; 
+import Example from "./components/ReviewPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Gardewpage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/Example" element={<Example />} />
         <Route path="/solution" element={<SolutionPage />} />
         <Route path="/dailytrack" element={<DailyTrackPage />} />
         <Route path="/support" element={<SupportPage />} />

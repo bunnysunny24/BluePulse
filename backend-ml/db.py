@@ -17,14 +17,31 @@ def create_connection():
         print(f"Error: {e}")
         return None
 
-def fetch_table_data(table_name: str) -> List[Dict]:
+def fetch_hourly_data(table_name: str) -> List[Dict]:
     connection = create_connection()
     if connection:
-        cursor = connection.cursor(dictionary=True)
-        query = f"SELECT * FROM {table_name}" 
-        rows = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        return rows
+        try:
+            cursor = connection.cursor(dictionary=True)
+
+            # Get the first row per hour
+            query = f"""
+                SELECT * FROM {table_name}
+                WHERE Timestamp IN (
+                    SELECT MIN(Timestamp) 
+                    FROM {table_name}
+                    GROUP BY DATE(Timestamp), HOUR(Timestamp)
+                )
+                ORDER BY Timestamp;
+            """
+            
+            cursor.execute(query)  
+            rows = cursor.fetchall()
+
+            cursor.close()
+            connection.close()
+            return rows
+        except Error as e:
+            print(f"Database error: {e}")
+            return []
     return []
 
