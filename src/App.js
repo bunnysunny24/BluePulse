@@ -6,8 +6,9 @@ import AboutPage from "./components/AboutPage";
 import SolutionPage from "./components/SolutionPage";
 import DailyTrackPage from "./components/DailyTrackPage";
 import SupportPage from "./components/SupportPage";
-import Pipeline from "./components/pipelines/pipeline-1"; 
+import Pipeline from "./components/pipelines/pipeline-1";
 import Example from "./components/ReviewPage";
+import SignInPage from "./components/login"; // Import SignInPage
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dailytrack" element={<DailyTrackPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/pipeline/:id" element={<Pipeline />} />
+        <Route path="/signin" element={<SignInPage />} /> 
       </Routes>
     </div>
   );
