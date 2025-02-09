@@ -5,19 +5,14 @@ import pandas as pd
 import os
 from datetime import datetime
 
-# Database connection URL
 DATABASE_URL = "mysql+pymysql://root:Bunny@localhost/pipeline_ml_db"
 
-# Create the database engine
 engine = create_engine(DATABASE_URL)
 
-# Create a session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Define the Base class
 Base = declarative_base()
 
-# Define the table model
 class PipelineData(Base):
     __tablename__ = "pipeline_data"
     
@@ -29,11 +24,8 @@ class PipelineData(Base):
     average_time = Column(Float, nullable=True)
     average_day = Column(Float, nullable=True)
     average_week = Column(Float, nullable=True)
-
-# Create table if it does not exist
 Base.metadata.create_all(bind=engine)
 
-# Define the folder containing CSV files
 folder_path = r"D:\Bunny\newchennaihack\myapp\backend-ml\Multiple"
 
 def upload_csv_from_folder(folder_path):
@@ -43,11 +35,10 @@ def upload_csv_from_folder(folder_path):
 
     db = SessionLocal()
     
-    # Loop through all CSV files in the folder
     for file_name in os.listdir(folder_path):
-        if file_name.endswith(".csv"):  # Ensure it's a CSV file
+        if file_name.endswith(".csv"): 
             file_path = os.path.join(folder_path, file_name)
-            print(f"Processing file: {file_path}")  # Debugging line
+            print(f"Processing file: {file_path}") 
             
             df = pd.read_csv(file_path)
             df['timestamp'] = pd.to_datetime(df['Timestamp'])
@@ -57,7 +48,7 @@ def upload_csv_from_folder(folder_path):
             df['average_day'] = df.groupby(df['timestamp'].dt.date)['flow_difference'].transform('mean')
             df['average_week'] = df.groupby(df['timestamp'].dt.to_period('W'))['flow_difference'].transform('mean')
 
-            df.fillna(0, inplace=True)  # Replace NaN values with 0
+            df.fillna(0, inplace=True)  
 
             for _, row in df.iterrows():
                 entry = PipelineData(
@@ -71,11 +62,10 @@ def upload_csv_from_folder(folder_path):
                 )
                 db.add(entry)
             
-            print(f"File {file_name} processed successfully!")  # Debugging line
+            print(f"File {file_name} processed successfully!") 
     
     db.commit()
-    print("All data committed successfully!")  # Debugging line
+    print("All data committed successfully!")  
     db.close()
 
-# Run the function to upload all CSV files
 upload_csv_from_folder(folder_path)

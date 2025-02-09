@@ -7,15 +7,13 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins or specify your frontend URL
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
-# Create a generic function to fetch table data based on the table name
 @app.get("/pipeline/{pipeline_id}")
 async def get_pipeline_data(pipeline_id: int):
-    # Construct the table name dynamically
     table_name = f"pipeline{pipeline_id}"
     data = fetch_table_data(table_name)
     

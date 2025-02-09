@@ -14,7 +14,6 @@ const Navbar = () => {
   return (
     <header className="py-6 px-8 bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-sky-100">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center space-x-3">
           <Link to="/" className="flex items-center space-x-2">
             <div className="bg-sky-500 text-white p-2 rounded-lg">

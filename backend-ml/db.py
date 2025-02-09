@@ -17,13 +17,11 @@ def create_connection():
         print(f"Error: {e}")
         return None
 
-# Fetch table data from MySQL
 def fetch_table_data(table_name: str) -> List[Dict]:
     connection = create_connection()
     if connection:
         cursor = connection.cursor(dictionary=True)
-        query = f"SELECT * FROM {table_name}"  # Query to fetch all data from the table
-        cursor.execute(query)
+        query = f"SELECT * FROM {table_name}" 
         rows = cursor.fetchall()
         cursor.close()
         connection.close()

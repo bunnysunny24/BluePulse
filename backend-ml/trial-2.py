@@ -2,7 +2,7 @@ from datetime import datetime
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import extract
-from trial1 import SessionLocal, PipelineData  # Ensure correct DB import
+from trial1 import SessionLocal, PipelineData  
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -29,16 +29,16 @@ def get_pipeline_data(db: Session = Depends(get_db)):
         current_hour = current_time.hour
         current_minute = current_time.minute
         rounded_minute = round(current_minute / 10) * 10
-        if rounded_minute == 60:  # Edge case: If rounded to 60, move to next hour
+        if rounded_minute == 60:  
             rounded_minute = 0
-            current_hour = (current_hour + 1) % 24  # Ensure it stays within 0-23 hours
+            current_hour = (current_hour + 1) % 24  
 
-        # ✅ Query database for matching hour & rounded minute and pipe_number = 1
+        
         results = (
             db.query(PipelineData)
             .filter(extract("hour", PipelineData.timestamp) == current_hour)
             .filter(extract("minute", PipelineData.timestamp) == rounded_minute)
-            .filter(PipelineData.pipe_number == 1)  # Corrected this line
+            .filter(PipelineData.pipe_number == 1) 
             .all()
         )
 

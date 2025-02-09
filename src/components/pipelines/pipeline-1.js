@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const Pipeline = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // Search state
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   useEffect(() => {
     fetch(`http://localhost:8000/pipeline/${id}`)
@@ -12,7 +12,6 @@ const Pipeline = () => {
       .then((data) => setData(data));
   }, [id]);
 
-  // Filter data based on search input
   const filteredData = data.filter((item) =>
     Object.values(item).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
@@ -39,7 +38,6 @@ const Pipeline = () => {
         Pipeline {id} Data
       </h1>
 
-      {/* Search Input */}
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
         <input
           type="text"
@@ -58,7 +56,6 @@ const Pipeline = () => {
         />
       </div>
 
-      {/* Table Container */}
       <div style={{ overflowX: "auto", display: "flex", justifyContent: "center" }}>
         <table
           style={{

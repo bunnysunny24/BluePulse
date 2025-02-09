@@ -6,7 +6,7 @@ import AboutPage from "./components/AboutPage";
 import SolutionPage from "./components/SolutionPage";
 import DailyTrackPage from "./components/DailyTrackPage";
 import SupportPage from "./components/SupportPage";
-import Pipeline from "./components/pipelines/pipeline-1"; // ✅ Import the existing file
+import Pipeline from "./components/pipelines/pipeline-1"; 
 
 function App() {
   return (
@@ -19,7 +19,6 @@ function App() {
         <Route path="/dailytrack" element={<DailyTrackPage />} />
         <Route path="/support" element={<SupportPage />} />
         <Route path="/pipeline/:id" element={<Pipeline />} />
- {/* ✅ Route Updated */}
       </Routes>
     </div>
   );

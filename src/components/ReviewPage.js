@@ -74,11 +74,8 @@ const ReviewPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white relative overflow-hidden">
       <WaterWave />
-
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-8 py-12">
         <div className="grid grid-cols-2 gap-8">
-          {/* Chart Section */}
           <div className={`transition-all duration-500 ${showElements.chart ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Hydration Pattern</h2>
@@ -93,8 +90,6 @@ const ReviewPage = () => {
               </div>
             </div>
           </div>
-
-          {/* Form Section */}
           <div className={`transition-all duration-500 ${showElements.form ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Track Your Water Intake</h2>

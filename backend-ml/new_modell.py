@@ -7,7 +7,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
 
-# Function to load and preprocess data
 def load_data(filename):
     if not os.path.exists(filename):
         raise FileNotFoundError(f"Error: File '{filename}' not found!")
@@ -23,7 +22,6 @@ def load_data(filename):
     df['Hour'] = df['Timestamp'].dt.hour
     return df
 
-# Function to train model and compute mean flow difference per hour
 def train_model(df):
     features = ['Flow_Inlet', 'Flow_Outlet', 'Hour']
     target = 'Flow_Difference'
@@ -49,7 +47,6 @@ def train_model(df):
     
     return mean_flow_diff, mae, r2
 
-# Running the process for all pipelines
 pipeline_count = 12
 input_mean = pd.DataFrame()
 
@@ -63,8 +60,6 @@ for i in range(1, pipeline_count + 1):
         print(f"✅ Model trained successfully for {filename}")
         print(f"📊 Mean Absolute Error (MAE): {mae:.4f}")
         print(f"📈 R² Score: {r2:.4f}")
-        
-        # Plot graphs
         plt.figure(figsize=(10, 5))
         plt.plot(mean_flow_diff.index, mean_flow_diff['Flow_Inlet'], label='Mean Inlet Flow', marker='o')
         plt.plot(mean_flow_diff.index, mean_flow_diff['Flow_Outlet'], label='Mean Outlet Flow', marker='s')
@@ -88,6 +83,5 @@ for i in range(1, pipeline_count + 1):
     except Exception as e:
         print(f"❌ Error processing {filename}: {e}")
 
-# Save the results to CSV
 input_mean.to_csv("input_mean.csv", index_label='Hour')
 print("📁 input_mean.csv saved successfully!")

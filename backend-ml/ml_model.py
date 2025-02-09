@@ -8,23 +8,19 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
-# Load dataset
+
 df = pd.read_csv("leakage_detection_dataset.csv")
 
-# Calculate Flow Difference
 df['Flow_Diff'] = df['Flow_A (L/min)'] - df['Flow_C (L/min)']
 
-# Compute average values
 avg_flow_a = df['Flow_A (L/min)'].mean()
 avg_flow_c = df['Flow_C (L/min)'].mean()
 avg_flow_diff = df['Flow_Diff'].mean()
 
-# Print average values
 print(f"📊 Average Flow A: {avg_flow_a:.2f} L/min")
 print(f"📊 Average Flow C: {avg_flow_c:.2f} L/min")
 print(f"📊 Average Flow Difference: {avg_flow_diff:.2f} L/min")
 
-# Plot time series of Flow_A, Flow_C, and Flow_Diff
 plt.figure(figsize=(12, 5))
 plt.plot(df.index, df['Flow_A (L/min)'], label="Flow_A (Input)", color='blue')
 plt.plot(df.index, df['Flow_C (L/min)'], label="Flow_C (Output)", color='green')
@@ -36,7 +32,6 @@ plt.legend()
 plt.grid()
 plt.show()
 
-# Bar chart of average values
 plt.figure(figsize=(6, 4))
 plt.bar(["Flow_A (Input)", "Flow_C (Output)", "Flow Difference"], 
         [avg_flow_a, avg_flow_c, avg_flow_diff], 
