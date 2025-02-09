@@ -3,7 +3,7 @@
 # Raunak Jalan
 # Sri Vatsa
 
-# You can check the implementation in https://youtu.be/9BgTsOEIfLc
+# You can check the implementation fro iot in https://youtu.be/9BgTsOEIfLc
 
 #### **Problem Statement 2: Water Conservation and Management**  
 #### **Overview:**  

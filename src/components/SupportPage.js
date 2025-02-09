@@ -26,6 +26,8 @@ import {
 } from "./ui/alert";
 
 const SupportPage = () => {
+  const [message, setMessage] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   
@@ -79,6 +81,17 @@ const SupportPage = () => {
      faq.answer.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  const handleSubmit = () => {
+    if (message.trim() !== "") {
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setMessage("");
+      }, 3000); // Hide message after 3 seconds
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white p-8">
       <div className="max-w-7xl mx-auto">
@@ -100,23 +113,30 @@ const SupportPage = () => {
 
         {/* Quick Help Cards */}
         <div className="grid grid-cols-3 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-start space-x-4">
-                <div className="bg-sky-100 p-3 rounded-lg">
-                  <Book className="h-6 w-6 text-sky-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Getting Started Guide</h3>
-                  <p className="text-gray-600 mb-4">New to BluePulse? Check out our comprehensive guide to get started.</p>
-                  <button className="text-sky-600 hover:text-sky-700 flex items-center space-x-2">
-                    <span>Read guide</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <Card className="hover:shadow-lg transition-shadow">
+    <CardContent className="p-6">
+      <div className="flex items-start space-x-4">
+        <div className="bg-sky-100 p-3 rounded-lg">
+          <Book className="h-6 w-6 text-sky-600" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-lg mb-2">Getting Started Guide</h3>
+          <p className="text-gray-600 mb-4">
+            New to BluePulse? Check out our comprehensive guide to get started.
+          </p>
+          <a 
+            href="https://ecosankalp.in/how-to-save-water-in-daily-life/"  
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-sky-600 hover:text-sky-700 flex items-center space-x-2"
+          >
+            <span>Read guide</span>
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
 
           <Card className="hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
@@ -137,21 +157,26 @@ const SupportPage = () => {
           </Card>
 
           <Card className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-start space-x-4">
-                <div className="bg-sky-100 p-3 rounded-lg">
-                  <Globe className="h-6 w-6 text-sky-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Community Forum</h3>
-                  <p className="text-gray-600 mb-4">Join our community to share tips and get advice.</p>
-                  <button className="text-sky-600 hover:text-sky-700 flex items-center space-x-2">
-                    <span>Visit forum</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </CardContent>
+          <CardContent className="p-6">
+          <div className="flex items-start space-x-4">
+            <div className="bg-sky-100 p-3 rounded-lg">
+              <Globe className="h-6 w-6 text-sky-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-2">Community Forum</h3>
+              <p className="text-gray-600 mb-4">Join our community to share tips and get advice.</p>
+              <a
+                href="https://www.mahadevmaitri.org/water-conservation-in-rural-india-community-led-initiatives"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky-600 hover:text-sky-700 flex items-center space-x-2"
+              >
+                <span>Visit forum</span>
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </CardContent>
           </Card>
         </div>
         <div className="grid grid-cols-12 gap-6">
@@ -205,7 +230,7 @@ const SupportPage = () => {
             </Card>
           </div>
           <div className="col-span-4 space-y-6">
-            <Card>
+          <Card>
               <CardHeader>
                 <CardTitle>Contact Us</CardTitle>
               </CardHeader>
@@ -224,11 +249,21 @@ const SupportPage = () => {
                       placeholder="Describe your issue..."
                       className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       rows={4}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                     />
-                    <button className="mt-2 w-full bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors flex items-center justify-center space-x-2">
+                    <button
+                      onClick={handleSubmit}
+                      className="mt-2 w-full bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors flex items-center justify-center space-x-2"
+                    >
                       <Send className="h-4 w-4" />
                       <span>Send Message</span>
                     </button>
+                    {isSubmitted && (
+                      <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg">
+                        ✅ Your message has been sent successfully!
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -239,19 +274,19 @@ const SupportPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <a href="#" className="block p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
+                  <a href="https://www.researchgate.net/publication/312525328_WATER_CONSERVATION_STRATEGIES_AND_SOLUTIONS" className="block p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
                     <div className="flex items-center space-x-3">
                       <FileText className="h-5 w-5 text-sky-600" />
                       <span>User Guide</span>
                     </div>
                   </a>
-                  <a href="#" className="block p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
+                  <a href="https://www.academia.edu/43752233/WATER_CONSERVATION_IN_INDIA" className="block p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
                     <div className="flex items-center space-x-3">
                       <Book className="h-5 w-5 text-sky-600" />
-                      <span>Plant Care Guide</span>
+                      <span>Water Care Guide</span>
                     </div>
                   </a>
-                  <a href="#" className="block p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
+                  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfe3Kvo00SOvveWrQFIz6LHx5fC-jzC9vVz4fI-w0T4RMwzLA/viewform?usp=dialog" className="block p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
                     <div className="flex items-center space-x-3">
                       <HelpCircle className="h-5 w-5 text-sky-600" />
                       <span>Troubleshooting Guide</span>

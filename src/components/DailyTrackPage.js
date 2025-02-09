@@ -7,18 +7,18 @@ const PipelineDashboard = () => {
   const navigate = useNavigate();
 
   const pipelines = [
-    { id: 1, name: 'Pipeline 1', location: 'North Processing Facility', description: 'Main extraction pipeline for raw materials processing' },
-    { id: 2, name: 'Pipeline 2', location: 'East Wing Storage', description: 'Secondary distribution network for finished products' },
-    { id: 3, name: 'Pipeline 3', location: 'South Terminal', description: 'Export pipeline connecting to shipping terminal' },
-    { id: 4, name: 'Pipeline 4', location: 'West Production Unit', description: 'Primary production line for chemical processing' },
-    { id: 5, name: 'Pipeline 5', location: 'Central Storage', description: 'Main storage and distribution pipeline' },
-    { id: 6, name: 'Pipeline 6', location: 'Northwest Facility', description: 'Raw material intake and preliminary processing' },
-    { id: 7, name: 'Pipeline 7', location: 'Southeast Complex', description: 'Finished product distribution network' },
-    { id: 8, name: 'Pipeline 8', location: 'Northeast Wing', description: 'Quality control and testing pipeline' },
-    { id: 9, name: 'Pipeline 9', location: 'Southwest Terminal', description: 'Export and shipping preparation line' },
-    { id: 10, name: 'Pipeline 10', location: 'Central Processing', description: 'Main processing and refinement pipeline' },
-    { id: 11, name: 'Pipeline 11', location: 'Eastern Terminal', description: 'Secondary export and distribution line' },
-    { id: 12, name: 'Pipeline 12', location: 'Western Complex', description: 'Auxiliary processing and storage pipeline' }
+    { id: 1, name: 'Pipeline 1', location: 'North Processing Facility', description: 'Main extraction pipeline for raw materials processing', status: 'Healthy' },
+    { id: 2, name: 'Pipeline 2', location: 'East Wing Storage', description: 'Secondary distribution network for finished products', status: 'Warning' },
+    { id: 3, name: 'Pipeline 3', location: 'South Terminal', description: 'Export pipeline connecting to shipping terminal', status: 'Critical - water leakage' },
+    { id: 4, name: 'Pipeline 4', location: 'West Production Unit', description: 'Primary production line for chemical processing', status: 'Healthy' },
+    { id: 5, name: 'Pipeline 5', location: 'Central Storage', description: 'Main storage and distribution pipeline', status: 'Healthy' },
+    { id: 6, name: 'Pipeline 6', location: 'Northwest Facility', description: 'Raw material intake and preliminary processing', status: 'Warning' },
+    { id: 7, name: 'Pipeline 7', location: 'Southeast Complex', description: 'Finished product distribution network', status: 'Warning' },
+    { id: 8, name: 'Pipeline 8', location: 'Northeast Wing', description: 'Quality control and testing pipeline', status: 'Healthy' },
+    { id: 9, name: 'Pipeline 9', location: 'Southwest Terminal', description: 'Export and shipping preparation line', status: 'Healthy' },
+    { id: 10, name: 'Pipeline 10', location: 'Central Processing', description: 'Main processing and refinement pipeline', status: 'Critical - water leakage' },
+    { id: 11, name: 'Pipeline 11', location: 'Eastern Terminal', description: 'Secondary export and distribution line', status: 'Warning' },
+    { id: 12, name: 'Pipeline 12', location: 'Western Complex', description: 'Auxiliary processing and storage pipeline', status: 'Healthy' }
   ];
 
   const filteredPipelines = pipelines.filter(pipeline =>
@@ -79,6 +79,12 @@ const PipelineDashboard = () => {
               <p className="text-sm text-gray-500">
                 {pipeline.description}
               </p>
+              <div className={`text-sm font-semibold mt-2 ${
+                pipeline.status === 'Healthy' ? 'text-green-500' :
+                pipeline.status === 'Warning' ? 'text-yellow-500' : 'text-red-500'}`}
+              >
+                <span className="font-medium">Status:</span> {pipeline.status}
+              </div>
             </div>
           </div>
         ))}

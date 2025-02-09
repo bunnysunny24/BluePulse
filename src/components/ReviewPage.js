@@ -1,134 +1,128 @@
-import React, { useState, useEffect } from 'react';
-import { RadarChart, PolarGrid, PolarAngleAxis, Radar, PolarRadiusAxis, Tooltip } from 'recharts';
-import { 
-  Droplet, 
-  Heart, 
-  Sprout, 
-  LineChart, 
-  Timer,
-  HelpCircle,
-  Search,
-  ArrowUpRight,
-  RefreshCw
-} from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const WaterWave = () => (
-  <div className="absolute bottom-0 left-0 right-0 h-64 opacity-20 pointer-events-none">
-    <svg viewBox="0 0 1440 320" className="w-full">
-      <path 
-        fill="#0099ff" 
-        fillOpacity="1" 
-        d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,144C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-      </path>
-    </svg>
-  </div>
-);
+const Pipeline = () => {
+  const { id } = useParams();
+  const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-const ReviewPage = () => {
-  const [showElements, setShowElements] = useState({
-    chart: false,
-    form: false
-  });
+ 
 
-  const [values, setValues] = useState({ value1: 0, value2: 0, value3: 0 });
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => setShowElements(prev => ({ ...prev, chart: true })), 600),
-      setTimeout(() => setShowElements(prev => ({ ...prev, form: true })), 900)
-    ];
-
-    return () => timers.forEach(timer => clearTimeout(timer));
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const parsedValues = {
-      input1: parseInt(values.value1, 10) || 0,
-      input2: parseInt(values.value2, 10) || 0,
-      input3: parseInt(values.value3, 10) || 0,
-    };
-    const avg = (parsedValues.input1 + parsedValues.input2 + parsedValues.input3) / 3;
-
-    try {
-      setMessage("Data successfully saved! Your hydration score: " + avg.toFixed(2));
-    } catch (err) {
-      console.error("Error saving data:", err);
-      setMessage("Failed to save data. Please try again.");
-    }
-  };
-
-  const radarData = {
-    labels: ['Morning', 'Afternoon', 'Evening'],
-    datasets: [{
-      label: 'Water Intake (ml)',
-      data: [values.value1, values.value2, values.value3],
-      backgroundColor: 'rgba(0, 149, 255, 0.2)',
-      borderColor: 'rgba(0, 149, 255, 1)',
-      borderWidth: 2,
-      pointBackgroundColor: 'rgba(0, 149, 255, 1)',
-    }],
-  };
+  const filteredData = data.filter((item) =>
+    Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white relative overflow-hidden">
-      <WaterWave />
-      <main className="max-w-7xl mx-auto px-8 py-12">
-        <div className="grid grid-cols-2 gap-8">
-          <div className={`transition-all duration-500 ${showElements.chart ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Hydration Pattern</h2>
-              <div className="aspect-square">
-                <RadarChart outerRadius="80%" width={400} height={400} data={radarData.datasets}>
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="label" />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                  <Radar name="Water Intake" dataKey="data" stroke="#0099ff" fill="#0099ff" fillOpacity={0.6} />
-                  <Tooltip />
-                </RadarChart>
-              </div>
-            </div>
-          </div>
-          <div className={`transition-all duration-500 ${showElements.form ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Track Your Water Intake</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {['Morning', 'Afternoon', 'Evening'].map((time, index) => (
-                  <div key={index} className="space-y-2">
-                    <label className="block text-gray-700 font-medium">
-                      {time} Intake (ml)
-                    </label>
-                    <input
-                      type="number"
-                      className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                      value={values[`value${index + 1}`]}
-                      onChange={(e) => setValues({ ...values, [`value${index + 1}`]: e.target.value })}
-                      placeholder="Enter amount in ml"
-                    />
-                  </div>
-                ))}
-                
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-sky-500 to-blue-500 text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 hover:shadow-lg transition-shadow"
-                >
-                  <span>Update Hydration Data</span>
-                  <RefreshCw className="h-5 w-5" />
-                </button>
-              </form>
+    <div
+      style={{
+        backgroundColor: "#f0f8ff",
+        minHeight: "100vh",
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <h1
+        style={{
+          textAlign: "center",
+          color: "#0A66C2",
+          fontSize: "28px",
+          marginBottom: "20px",
+        }}
+      >
+        Pipeline {id} Data
+      </h1>
 
-              {message && (
-                <div className="mt-6 p-4 bg-sky-50 rounded-lg text-sky-700">
-                  {message}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </main>
+      {/* Image Section */}
+      <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "20px" }}>
+        <img
+          src={`/graphs/pipeline${id}_flow_comparison.png`}
+          alt={`Pipeline ${id} Flow Comparison`}
+          style={{ width: "45%", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}
+        />
+        <img
+          src={`/graphs/pipeline${id}_actual_vs_predicted.png`}
+          alt={`Pipeline ${id} Actual vs Predicted`}
+          style={{ width: "45%", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}
+        />
+      </div>
+
+      {/* Search Bar */}
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
+        <input
+          type="text"
+          placeholder="🔍 Search Pipeline Data..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "50%",
+            padding: "10px 15px",
+            fontSize: "16px",
+            borderRadius: "25px",
+            border: "1px solid #0A66C2",
+            outline: "none",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        />
+      </div>
+
+      {/* Data Table */}
+      <div style={{ overflowX: "auto", display: "flex", justifyContent: "center" }}>
+        <table
+          style={{
+            width: "90%",
+            borderCollapse: "collapse",
+            backgroundColor: "#ffffff",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <thead>
+            <tr
+              style={{
+                backgroundColor: "#0A66C2",
+                color: "white",
+                textAlign: "left",
+              }}
+            >
+              <th style={{ padding: "12px 16px" }}>ID</th>
+              <th style={{ padding: "12px 16px" }}>Timestamp</th>
+              <th style={{ padding: "12px 16px" }}>Inlet Flow</th>
+              <th style={{ padding: "12px 16px" }}>Outlet Flow</th>
+              <th style={{ padding: "12px 16px" }}>Average Per Hour</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length > 0 ? (
+              filteredData.map((item, index) => (
+                <tr
+                  key={item.id}
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#EAF4FF" : "white",
+                    textAlign: "left",
+                  }}
+                >
+                  <td style={{ padding: "12px 16px" }}>{item.id}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.Timestamp}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.InletFlow}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.OutletFlow}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.AveragePerHour}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ padding: "12px 16px", textAlign: "center", color: "gray" }}>
+                  No matching records found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default ReviewPage;
+export default Pipeline;

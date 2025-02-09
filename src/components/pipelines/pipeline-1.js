@@ -38,7 +38,6 @@ const Pipeline = () => {
         Pipeline {id} Data
       </h1>
 
-      {/* Image Section */}
       <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "20px" }}>
         <img
           src={`/graphs/pipeline${id}_flow_comparison.png`}
@@ -52,7 +51,6 @@ const Pipeline = () => {
         />
       </div>
 
-      {/* Search Bar */}
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
         <input
           type="text"
@@ -71,7 +69,6 @@ const Pipeline = () => {
         />
       </div>
 
-      {/* Data Table */}
       <div style={{ overflowX: "auto", display: "flex", justifyContent: "center" }}>
         <table
           style={{
