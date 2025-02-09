@@ -1,73 +1,119 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const PipelineDataDisplay = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const Pipeline = () => {
+  const { id } = useParams();
+  const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // Search state
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("http://localhost:8000/pipeline-data/7-days");
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                console.log("API Response:", result); // Debugging log
-                
-                if (result && result.data) {
-                    setData(result.data);
-                } else {
-                    setData([]); // Ensure data is always an array
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    fetch(`http://localhost:8000/pipeline/${id}`)
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, [id]);
 
-        fetchData();
-    }, []);
+  // Filter data based on search input
+  const filteredData = data.filter((item) =>
+    Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
-    if (loading) return <p>Loading data...</p>;
-    if (error) return <p>Error loading data: {error.message}</p>;
-    if (data.length === 0) return <p>No data available for the last 7 days.</p>;
+  return (
+    <div
+      style={{
+        backgroundColor: "#f0f8ff",
+        minHeight: "100vh",
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <h1
+        style={{
+          textAlign: "center",
+          color: "#0A66C2",
+          fontSize: "28px",
+          marginBottom: "20px",
+        }}
+      >
+        Pipeline {id} Data
+      </h1>
 
-    return (
-        <div>
-            <h2>Pipeline Data (Last 7 Days at 11 AM)</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Timestamp</th>
-                        <th>Flow Inlet</th>
-                        <th>Flow Outlet</th>
-                        <th>Flow Difference</th>
-                        <th>Average Time</th>
-                        <th>Average Day</th>
-                        <th>Average Week</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((entry, index) => (
-                        <tr key={index}>
-                            <td>{new Date(entry.timestamp).toLocaleString()}</td>
-                            <td>{entry.flow_inlet}</td>
-                            <td>{entry.flow_outlet}</td>
-                            <td>{entry.flow_difference}</td>
-                            <td>{entry.average_time}</td>
-                            <td>{entry.average_day}</td>
-                            <td>{entry.average_week}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+      {/* Search Input */}
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
+        <input
+          type="text"
+          placeholder="🔍 Search Pipeline Data..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "50%",
+            padding: "10px 15px",
+            fontSize: "16px",
+            borderRadius: "25px",
+            border: "1px solid #0A66C2",
+            outline: "none",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        />
+      </div>
+
+      {/* Table Container */}
+      <div style={{ overflowX: "auto", display: "flex", justifyContent: "center" }}>
+        <table
+          style={{
+            width: "90%",
+            borderCollapse: "collapse",
+            backgroundColor: "#ffffff",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <thead>
+            <tr
+              style={{
+                backgroundColor: "#0A66C2",
+                color: "white",
+                textAlign: "left",
+              }}
+            >
+              <th style={{ padding: "12px 16px" }}>ID</th>
+              <th style={{ padding: "12px 16px" }}>Timestamp</th>
+              <th style={{ padding: "12px 16px" }}>Inlet Flow</th>
+              <th style={{ padding: "12px 16px" }}>Outlet Flow</th>
+              <th style={{ padding: "12px 16px" }}>Average Per Hour</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length > 0 ? (
+              filteredData.map((item, index) => (
+                <tr
+                  key={item.id}
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#EAF4FF" : "white",
+                    textAlign: "left",
+                  }}
+                >
+                  <td style={{ padding: "12px 16px" }}>{item.id}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.Timestamp}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.InletFlow}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.OutletFlow}</td>
+                  <td style={{ padding: "12px 16px" }}>{item.AveragePerHour}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ padding: "12px 16px", textAlign: "center", color: "gray" }}>
+                  No matching records found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
-export default PipelineDataDisplay;
+export default Pipeline;
