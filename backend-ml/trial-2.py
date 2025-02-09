@@ -33,16 +33,17 @@ def get_pipeline_data(db: Session = Depends(get_db)):
             rounded_minute = 0
             current_hour = (current_hour + 1) % 24  # Ensure it stays within 0-23 hours
 
-        # ✅ Query database for matching hour & rounded minute
+        # ✅ Query database for matching hour & rounded minute and pipe_number = 1
         results = (
             db.query(PipelineData)
             .filter(extract("hour", PipelineData.timestamp) == current_hour)
             .filter(extract("minute", PipelineData.timestamp) == rounded_minute)
+            .filter(PipelineData.pipe_number == 1)  # Corrected this line
             .all()
         )
 
         if not results:
-            raise HTTPException(status_code=404, detail="No data found for 11 AM")
+            raise HTTPException(status_code=404, detail="No data found for 11 AM with pipe_number = 1")
 
         return {"data": results}
 
