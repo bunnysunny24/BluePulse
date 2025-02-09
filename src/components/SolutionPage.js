@@ -122,11 +122,8 @@ const SolutionPage = () => {
             </div>
           </div>
         </div>
-
-        {/* Solutions Section */}
         <div className={`transition-all duration-500 ${showElements.solutions ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="grid grid-cols-2 gap-8">
-            {/* Immediate Actions */}
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Immediate Actions</h3>
               <ul className="space-y-2">

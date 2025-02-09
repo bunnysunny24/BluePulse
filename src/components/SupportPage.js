@@ -87,7 +87,7 @@ const SupportPage = () => {
       setTimeout(() => {
         setIsSubmitted(false);
         setMessage("");
-      }, 3000); // Hide message after 3 seconds
+      }, 3000); 
     }
   };
 
@@ -111,7 +111,6 @@ const SupportPage = () => {
           </div>
         </div>
 
-        {/* Quick Help Cards */}
         <div className="grid grid-cols-3 gap-6 mb-12">
         <Card className="hover:shadow-lg transition-shadow">
     <CardContent className="p-6">

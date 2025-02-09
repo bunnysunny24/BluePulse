@@ -1,4 +1,3 @@
-// Input.jsx
 const Input = React.forwardRef(({ className, type, ...props }, ref) => {
     return (
       <input
@@ -17,7 +16,6 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
     );
   });
   
-  // Button.jsx
   const Button = React.forwardRef(({ className, children, ...props }, ref) => {
     return (
       <button
@@ -38,7 +36,6 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
     );
   });
   
-  // Tabs Components
   const Tabs = ({ defaultValue, children, className }) => {
     const [value, setValue] = React.useState(defaultValue);
   
@@ -89,7 +86,6 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
     return <div>{children}</div>;
   };
   
-  // Main Sign In Page Component
   const SignInPage = () => {
     const [loading, setLoading] = React.useState(false);
     const [activeTab, setActiveTab] = React.useState('personal');
@@ -102,7 +98,6 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
   
     return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-4">
-        {/* Header */}
         <header className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <svg 
@@ -117,8 +112,6 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
             <span className="text-2xl font-bold text-blue-900">BluePulse</span>
           </div>
         </header>
-  
-        {/* Main Content */}
         <main className="max-w-md mx-auto mt-16">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-blue-900">Welcome Back</h1>

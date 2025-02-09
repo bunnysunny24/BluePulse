@@ -22,8 +22,6 @@ def fetch_hourly_data(table_name: str) -> List[Dict]:
     if connection:
         try:
             cursor = connection.cursor(dictionary=True)
-
-            # Get the first row per hour
             query = f"""
                 SELECT * FROM {table_name}
                 WHERE Timestamp IN (
