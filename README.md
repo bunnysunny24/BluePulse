@@ -29,3 +29,13 @@ Develop a **smart water management system** that includes:
 - **Database Management:** MySQL for structured data storage.  
 - **Frontend Development:** React.js for the user dashboard.  
 - **Cloud Storage & Processing:** AWS/GCP/Azure for handling real-time data.  
+
+USE bluepulse;
+SHOW TABLES;
+SELECT * FROM pipeline1 LIMIT 10;
+python new_modell.py
+uvicorn iot_fast_api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn main:app --reload
+curl -X POST "http://localhost:8000/add-pipeline-data" -H "Content-Type: application/json" -d '{"timestamp": "2025-02-09T11:00:00", "flow_inlet": 100, "flow_outlet": 90}'
+npm install"
+npm start

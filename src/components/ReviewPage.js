@@ -10,20 +10,18 @@ const Pipeline = () => {
         Pipeline {id} Data
       </h1>
 
-      {/* Large Metrics on Top */}
       <div style={{ display: "flex", justifyContent: "center", gap: "40px", marginBottom: "30px", flexWrap: "wrap" }}>
         <div style={{ fontSize: "24px", fontWeight: "bold", color: "#333", backgroundColor: "#EAF4FF", padding: "15px", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
-          📊 Mean Absolute Error (MAE): <span style={{ color: "#0A66C2" }}>0.0003</span>
+          📊 Mean Absolute Error (MAE): <span style={{ color: "#0A66C2" }}>0.0205</span>
         </div>
         <div style={{ fontSize: "24px", fontWeight: "bold", color: "#333", backgroundColor: "#EAF4FF", padding: "15px", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
-          📈 R² Score: <span style={{ color: "#0A66C2" }}>0.9997</span>
+          📈 R² Score: <span style={{ color: "#0A66C2" }}>0.9795</span>
         </div>
         <div style={{ fontSize: "24px", fontWeight: "bold", color: "#333", backgroundColor: "#EAF4FF", padding: "15px", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
-          🎯 Accuracy: <span style={{ color: "#0A66C2" }}>99.97%</span>
+          🎯 Accuracy: <span style={{ color: "#0A66C2" }}>97.95%</span>
         </div>
       </div>
 
-      {/* 2x2 Grid for IoT Graphs */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", justifyContent: "center", alignItems: "center" }}>
         {[1, 2, 3, 4].map((num) => (
           <img
